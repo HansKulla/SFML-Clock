@@ -59,6 +59,7 @@ int main()
 
         clockHand.setRotation(gmtm.tm_min * 6);
         clockHand3.setRotation(gmtm.tm_sec * 6);
+        //-30 is to compensate for it being 1 hour ahead for some reason
         clockHand2.setRotation(gmtm.tm_hour * 15-30);
         window.clear(sf::Color::White);
         window.draw(background); 
