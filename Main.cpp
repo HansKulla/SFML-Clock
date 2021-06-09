@@ -9,14 +9,17 @@ int main()
     sf::Event event;
     sf::RenderWindow window( sf::VideoMode(width,height), "SFML works!" );
 
+    //sets view
     sf::View view2(sf::Vector2f(0.f, 0.f), sf::Vector2f(500.f, 500.f));
     window.setView(view2);
 
+    //creates background
     sf::Texture backgroundClock;
     backgroundClock.loadFromFile("CLOCK.png");
     sf::RectangleShape background(sf::Vector2f(300, 300));
     background.setTexture(&backgroundClock);  
 
+    //
     sf::Texture clockHandTexture;
     clockHandTexture.loadFromFile("clockHand.png");
     sf::RectangleShape clockHand(sf::Vector2f(8, 150));
@@ -30,22 +33,14 @@ int main()
 
     sf::RectangleShape clockHand2(sf::Vector2f(8, 150));
     clockHand2.setTexture(&clockHandTexture);
-    //clockHand.setPosition(sf::Vector2f(154,280));
     clockHand2.setScale(sf::Vector2f(1, 0.6));
-    //clockHand.rotate(180);
     clockHand2.setOrigin(clockHand2.getSize().x / 2.0f, clockHand2.getSize().y);
-    //clockHand.rotate(45);
-    //printf("x:%f y:%f", clockHand.getOrigin().x, clockHand.getOrigin().y);
 
     sf::RectangleShape clockHand3(sf::Vector2f(8, 150));
     clockHand3.setTexture(&clockHandTexture);
     clockHand3.setFillColor(sf::Color::Red);
-    //clockHand.setPosition(sf::Vector2f(154,280));
     clockHand3.setScale(sf::Vector2f(1, 0.9));
-    //clockHand.rotate(180);
     clockHand3.setOrigin(clockHand3.getSize().x / 2.0f, clockHand3.getSize().y);
-    //clockHand.rotate(45);
-    //printf("x:%f y:%f", clockHand.getOrigin().x, clockHand.getOrigin().y);
 
     background.setOrigin(background.getSize().x/2.0f, background.getSize().y / 2.0f);
 
