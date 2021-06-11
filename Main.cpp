@@ -9,7 +9,7 @@ int main()
     sf::Event event;
     sf::RenderWindow window( sf::VideoMode(width,height), "SFML works!" );
 
-    //sets view
+    //sets view on origin
     sf::View view2(sf::Vector2f(0.f, 0.f), sf::Vector2f(500.f, 500.f));
     window.setView(view2);
 
@@ -18,31 +18,31 @@ int main()
     backgroundClock.loadFromFile("CLOCK.png");
     sf::RectangleShape background(sf::Vector2f(300, 300));
     background.setTexture(&backgroundClock);  
+    //centers the background on the origin
+    background.setOrigin(background.getSize().x / 2.0f, background.getSize().y / 2.0f);
 
-    //
+
+    //creates a texture object
     sf::Texture clockHandTexture;
+    //loads a picture of an arrow for a clockhand
     clockHandTexture.loadFromFile("clockHand.png");
-    sf::RectangleShape clockHand(sf::Vector2f(8, 150));
-    clockHand.setTexture(&clockHandTexture);
-    //clockHand.setPosition(sf::Vector2f(154,280));
-    clockHand.setScale(sf::Vector2f(1, 0.9));
-    //clockHand.rotate(180);
-    clockHand.setOrigin(clockHand.getSize().x/2.0f,clockHand.getSize().y);
-    //clockHand.rotate(45);
+    sf::RectangleShape clockHandMinute(sf::Vector2f(8, 150));
+    clockHandMinute.setTexture(&clockHandTexture);
+    clockHandMinute.setScale(sf::Vector2f(1, 0.9));
+    //centers the clock hand in x dimension and shifts it just above the origin in y direction
+    clockHandMinute.setOrigin(clockHandMinute.getSize().x/2.0f,clockHandMinute.getSize().y);
     //printf("x:%f y:%f", clockHand.getOrigin().x, clockHand.getOrigin().y);
 
-    sf::RectangleShape clockHand2(sf::Vector2f(8, 150));
-    clockHand2.setTexture(&clockHandTexture);
-    clockHand2.setScale(sf::Vector2f(1, 0.6));
-    clockHand2.setOrigin(clockHand2.getSize().x / 2.0f, clockHand2.getSize().y);
+    sf::RectangleShape clockHandHour(sf::Vector2f(8, 150));
+    clockHandHour.setTexture(&clockHandTexture);
+    clockHandHour.setScale(sf::Vector2f(1, 0.6));
+    clockHandHour.setOrigin(clockHandHour.getSize().x / 2.0f, clockHandHour.getSize().y);
 
-    sf::RectangleShape clockHand3(sf::Vector2f(8, 150));
-    clockHand3.setTexture(&clockHandTexture);
-    clockHand3.setFillColor(sf::Color::Red);
-    clockHand3.setScale(sf::Vector2f(1, 0.9));
-    clockHand3.setOrigin(clockHand3.getSize().x / 2.0f, clockHand3.getSize().y);
-
-    background.setOrigin(background.getSize().x/2.0f, background.getSize().y / 2.0f);
+    sf::RectangleShape clockHandSecond(sf::Vector2f(8, 150));
+    clockHandSecond.setTexture(&clockHandTexture);
+    clockHandSecond.setFillColor(sf::Color::Red);
+    clockHandSecond.setScale(sf::Vector2f(1, 0.9));
+    clockHandSecond.setOrigin(clockHandSecond.getSize().x / 2.0f, clockHandSecond.getSize().y);
 
     while (window.isOpen())
     {
@@ -57,15 +57,20 @@ int main()
         tm gmtm;
         gmtime_s(&gmtm, &now);
 
-        clockHand.setRotation(gmtm.tm_min * 6);
-        clockHand3.setRotation(gmtm.tm_sec * 6);
-        //-30 is to compensate for it being 1 hour ahead for some reason
-        clockHand2.setRotation(gmtm.tm_hour * 15-30);
+        //rotation for minutes and seconds is 360/60 = 6 degrees/minute
+        clockHandMinute.setRotation(gmtm.tm_min * 6);
+        clockHandSecond.setRotation(gmtm.tm_sec * 6);
+        //function takes hours from midnight so need to compensate with +1
+        //rotation for hours is 360/12 = 30 degrees/hour if goes over 12 hours still works sin 13::00*30 = 390 is same -
+        //rotation as 1*30
+        clockHandHour.setRotation((gmtm.tm_hour + 1) * 30);
+        //sets rotation for inbetween hours, math is (current_minute/60) * 30 which simplifies to current_minute/2
+        clockHandHour.rotate(gmtm.tm_min / 2);
         window.clear(sf::Color::White);
         window.draw(background); 
-        window.draw(clockHand);
-        window.draw(clockHand2);
-        window.draw(clockHand3);
+        window.draw(clockHandMinute);
+        window.draw(clockHandHour);
+        window.draw(clockHandSecond);
         window.display();
     }
 
