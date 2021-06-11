@@ -61,7 +61,7 @@ int main()
         clockHandMinute.setRotation(gmtm.tm_min * 6);
         clockHandSecond.setRotation(gmtm.tm_sec * 6);
         //function takes hours from midnight so need to compensate with +1
-        //rotation for hours is 360/12 = 30 degrees/hour if goes over 12 hours still works sin 13::00*30 = 390 is same -
+        //rotation for hours is 360/12 = 30 degrees/hour if goes over 12 hours still works since 13*30 (13:00) = 390 is the same -
         //rotation as 1*30
         clockHandHour.setRotation((gmtm.tm_hour + 1) * 30);
         //sets rotation for inbetween hours, math is (current_minute/60) * 30 which simplifies to current_minute/2
